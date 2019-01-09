@@ -556,3 +556,4 @@ CREATE TABLE CU1_O_TABLE
    --unique_id_number             NVARCHAR2(11) NULL,
    --enbd_riskrating				NVARCHAR2(11) NULL
 );
+exit;
