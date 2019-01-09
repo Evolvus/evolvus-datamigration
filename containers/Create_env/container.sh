@@ -1,4 +1,11 @@
 SCRIPT="${BASH_SOURCE[0]}"
 SOURCE=`dirname "${BASH_SOURCE[0]}"`
+
+FILE_SYSTEM_COUNT=`ls $SOURCE | wc -l`
+FILE_REGISTRY_COUNT=`cat $SOURCE/file.txt | wc -l`
+EXTRA_COUNT=2
+echo $FILE_SYSTEM_COUNT
+echo $FILE_REGISTRY_COUNT
+
 sqlplus $USERNAME/$PASSWORD@$SID @$SOURCE/drop_table.sql
 sqlplus $USERNAME/$PASSWORD@$SID @$SOURCE/create_table.sql

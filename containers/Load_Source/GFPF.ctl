@@ -14,7 +14,7 @@ load data
 CHARACTERSET WE8ISO8859P1
 INFILE *
 truncate into table GFPF
-fields terminated by x'09'
+fields terminated by ','
 TRAILING NULLCOLS
 (
 GFCUS,
@@ -95,5 +95,4 @@ GFPSTM,
 GFNSTM,
 GFSTN,
 GFOCID
-) ;
-exit;
+) 

@@ -6,13 +6,13 @@
 -------------------------------------------------------------------
 set head off
 set feedback off
-set term off
+--set term off
 set lines 1200
 set page size 0
 set pages 0
 set trimspool on
-CHARACTERSET UTF8
-spool $MIG_PATH/output/finacle/cifkw/RC001.txt
+--set CHARACTERSET UTF8
+spool $SPOOL_PATH/cif/RC001.txt
 select 
 trim(ORGKEY)||'|'||
 trim(CIF_ID)||'|'||
