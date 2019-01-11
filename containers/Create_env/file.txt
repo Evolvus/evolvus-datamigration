@@ -1,2 +1,2 @@
-drop_table.sql,sql
-create_table.sql,sql
+10,drop_table.sql,sql
+20,create_table.sql,sql
