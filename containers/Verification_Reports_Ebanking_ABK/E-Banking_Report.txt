@@ -1,0 +1,606 @@
+ 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+corp_e-bank_user.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+corp_e-bank_user.sql 
+
+--SET 1
+select 
+a.CUST_ID LEG_CIF_ID,b.CUST_ID FIN_CIF_ID,case when NVL(trim(a.CUST_ID),' ') = NVL(trim(b.CUST_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIF_ID, 
+a.CORP_USER LEG_USER_ID,b.USER_ID FIN_USER_ID,case when upper(NVL(trim(a.CORP_USER),' ')) = NVL(trim(b.USER_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_USER_ID,
+a.C_L_NAME LEG_LAST_NAME,b.C_L_NAME FIN_LAST_NAME ,case when NVL(trim(a.C_L_NAME),' ') = NVL(trim(b.C_L_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_LAST_NAME,
+a.C_M_NAME LEG_MIDDLE_NAME,b.C_M_NAME FIN_MIDDLE_NAME,case when NVL(trim(a.C_M_NAME),' ') = NVL(trim(b.C_M_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_MIDDLE_NAME,
+a.C_F_NAME LEG_FIRST_NAME,b.C_F_NAME FIN_FIRST_NAME,case when NVL(trim(a.C_F_NAME) ,' ')= NVL(trim(b.C_F_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_FIRST_NAME,
+a.C_EMAIL_ID LEG_EMAIL_ID,b.C_EMAIL_ID FIN_EMAIL_ID,case when NVL(trim(a.C_EMAIL_ID),' ') = NVL(trim(b.C_EMAIL_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_EMAIL_ID,
+a.C_ADDR1 LEG_ADDRESS1,b.C_ADDR1 FIN_ADDRESS1,case when NVL(trim(a.C_ADDR1) ,' ')= NVL(trim(b.C_ADDR1),' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS1,
+a.C_ADDR2 LEG_ADDRESS2,b.C_ADDR2 FIN_ADDRESS2,case when NVL(trim(a.C_ADDR2),' ') = NVL(trim(b.C_ADDR2),' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS2,
+a.C_GENDER LEG_GENDER,b.C_GENDER FIN_GENDER,case when NVL(trim(a.C_GENDER),' ') = NVL(trim(b.C_GENDER),' ') then 'TRUE' ELSE 'FALSE' END MATCH_GENDER,
+--a.DATE_OF_BIRTH LEG_DATE_OF_BIRTH,b.DATE_OF_BIRTH FIN_DATE_OF_BIRTH,case when NVL(a.DATE_OF_BIRTH,sysdate) = NVL(b.DATE_OF_BIRTH,sysdate) then 'TRUE' ELSE 'FALSE' END MATCH_DATE_OF_BIRTH,
+a.PAN_NATIONAL_ID LEG_CIVIL_ID,b.PAN_NATIONAL_ID FIN_CIVIL_ID,case when NVL(trim(a.PAN_NATIONAL_ID),' ') = NVL(trim(b.PAN_NATIONAL_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIVIL_ID
+ from CORP_E_BANKING_USER_O_TABLE A
+LEFT JOIN (
+SELECT DISTINCT * FROM ECECUSER.CUSR@DBREAD_USER FIN_CUSR
+inner JOIN ECECUSER.CSIP@DBREAD_USER FIN_CSIP ON trim(FIN_CSIP.INDIVIDUAL_ID) = trim(FIN_CUSR.INDIVIDUAL_ID)  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) B ON trim(A.CUST_ID) = trim(B.CUST_ID) and upper(NVL(trim(a.CORP_USER),' ')) = NVL(b.USER_ID,' ')
+
+
+
+----SET 2
+select 
+a.CUST_ID LEG_CIF_ID,b.CUST_ID FIN_CIF_ID,case when NVL(a.CUST_ID,' ') = NVL(b.CUST_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIF_ID, 
+a.CORP_USER LEG_USER_ID,b.USER_ID FIN_USER_ID,case when upper(NVL(trim(a.CORP_USER),' ')) = NVL(b.USER_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_USER_ID,
+a.C_L_NAME LEG_LAST_NAME,b.C_L_NAME FIN_LAST_NAME ,case when NVL(trim(a.C_L_NAME),' ') = NVL(trim(b.C_L_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_LAST_NAME,
+a.C_M_NAME LEG_MIDDLE_NAME,b.C_M_NAME FIN_MIDDLE_NAME,case when NVL(trim(a.C_M_NAME),' ') = NVL(trim(b.C_M_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_MIDDLE_NAME,
+a.C_F_NAME LEG_FIRST_NAME,b.C_F_NAME FIN_FIRST_NAME,case when NVL(trim(a.C_F_NAME) ,' ')= NVL(trim(b.C_F_NAME),' ') then 'TRUE' ELSE 'FALSE' END MATCH_FIRST_NAME,
+a.C_EMAIL_ID LEG_EMAIL_ID,b.C_EMAIL_ID FIN_EMAIL_ID,case when NVL(trim(a.C_EMAIL_ID),' ') = NVL(trim(b.C_EMAIL_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_EMAIL_ID,
+a.C_ADDR1 LEG_ADDRESS1,b.C_ADDR1 FIN_ADDRESS1,case when NVL(trim(a.C_ADDR1) ,' ')= NVL(trim(b.C_ADDR1),' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS1,
+a.C_ADDR2 LEG_ADDRESS2,b.C_ADDR2 FIN_ADDRESS2,case when NVL(trim(a.C_ADDR2),' ') = NVL(trim(b.C_ADDR2),' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS2,
+a.C_GENDER LEG_GENDER,b.C_GENDER FIN_GENDER,case when NVL(trim(a.C_GENDER),' ') = NVL(trim(b.C_GENDER),' ') then 'TRUE' ELSE 'FALSE' END MATCH_GENDER,
+--a.DATE_OF_BIRTH LEG_DATE_OF_BIRTH,b.DATE_OF_BIRTH FIN_DATE_OF_BIRTH,case when NVL(a.DATE_OF_BIRTH,sysdate) = NVL(b.DATE_OF_BIRTH,sysdate) then 'TRUE' ELSE 'FALSE' END MATCH_DATE_OF_BIRTH,
+a.PAN_NATIONAL_ID LEG_CIVIL_ID,b.PAN_NATIONAL_ID FIN_CIVIL_ID,case when NVL(trim(a.PAN_NATIONAL_ID),' ') = NVL(trim(b.PAN_NATIONAL_ID),' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIVIL_ID
+ from CORP_E_BANKING_USER1_O_TABLE A
+LEFT JOIN (
+SELECT DISTINCT * FROM ECECUSER.CUSR@DBREAD_USER FIN_CUSR
+inner JOIN ECECUSER.CSIP@DBREAD_USER FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) B ON A.CUST_ID = B.CUST_ID and upper(NVL(trim(a.CORP_USER),' ')) = NVL(b.USER_ID,' ') 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+CustomerPayee_not.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+CustomerPayee_not.sql 
+select DISTINCT
+--NXT_PAYEE_LIST_ID01.NEXTVAL "PAYEE_LIST_ID",FIN_CP.PAYEE_LIST_ID,
+       NVL(TRIM(O.USERID),CONVERT_CODES('ALPHABET','Y')) LEG_USERID,FIN_CP.USER_ID FIN_USER_ID,CASE WHEN TRIM(O.USERID) = FIN_CP.USER_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_USERID,
+       NVL(TRIM(IP.CUSTOMER_NO),CONVERT_CODES('ALPHABET','Y')) LEG_CUSTOMER_NO,FIN_CP.CORP_ID FIN_CORP_ID,CASE WHEN TRIM(IP.CUSTOMER_NO) = FIN_CP.CORP_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_CUSTOMER_NO,
+     --  NVL(PM.BNF_ID,CONVERT_CODES('DIGIT','Y')) LEG_BNF_ID,FIN_CP.BNF_ID FIN_BNF_ID,
+       TRIM(IP.PAYEE_NAME) LEG_PAYEE_NAME,FIN_CP.BNF_NIC_NAME FIN_BNF_NIC_NAME,CASE WHEN NVL(TRIM(IP.PAYEE_NAME),CONVERT_CODES('ALPHABET','Y')) = FIN_CP.BNF_NIC_NAME THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_NAME
+     --  CB.CITY LEG_CITY,FIN_CP.FREE_FIELD_1 FIN_FREE_FIELD_1,
+     --  CB.COUNTRY_CODE LEG_COUNTRY_CODE,FIN_CP.FREE_FIELD_2 FIN_FREE_FIELD_2
+       FROM
+(SELECT DISTINCT IP.* FROM INTERNET_PAYEE IP INNER JOIN( SELECT CUSTOMER_NO,TRIM(PAYEE_ACCOUNT) PAYEE_ACCOUNT,max(to_date(substr(DATE_AUTHORISED,1,19),
+ 'YYYY-MM-DD HH24:MI:SS')) MAX_DATE_AUTHORISED FROM 
+ INTERNET_PAYEE where status='A' and IS_DELETED='0' GROUP BY CUSTOMER_NO,TRIM(PAYEE_ACCOUNT)) IP1 ON IP.CUSTOMER_NO=IP1.CUSTOMER_NO AND TRIM(IP.PAYEE_ACCOUNT)=TRIM(IP1.PAYEE_ACCOUNT)
+ AND to_date(substr(IP.DATE_AUTHORISED,1,19),'YYYY-MM-DD HH24:MI:SS')  = IP1.MAX_DATE_AUTHORISED) IP 
+  LEFT JOIN ( SELECT * FROM CORRESPONDENT_BANK WHERE ROWID IN (
+  SELECT MAX(ROWID) FROM CORRESPONDENT_BANK GROUP BY UPPER(NAME),UPPER(CITY)
+  )) CB ON UPPER(IP.PAYEE_BANK) = UPPER(CB.NAME) AND UPPER(IP.PAYEE_BRANCH) = UPPER(CB.CITY)
+ -- LEFT JOIN PAYEE_MASTER_O_TABLE PM ON PM.CORP_ID = IP.CUSTOMER_NO AND PM.BNF_NAME = TRIM(IP.PAYEE_NAME)
+  LEFT JOIN ONLINE_BANK_CUST_DTLS_UNQ_DATA O ON  O.CUSTOMER_NO=IP.CUSTOMER_NO 
+  LEFT JOIN ECECUSER.CUSTOMER_PAYEE@EBUAT_DBLINK FIN_CP ON upper(trim(FIN_CP.USER_ID)) = upper(TRIM(O.USERID))AND trim(FIN_CP.CORP_ID) = TRIM(IP.CUSTOMER_NO)
+   AND REPLACE(FIN_CP.BNF_NIC_NAME,PAYEE_LIST_ID,'') = TRIM(IP.PAYEE_NAME) AND FIN_CP.BANK_ID='01'
+  WHERE   O.STATUS='A' AND TRIM(O.USERID) !='*CyberStar*' 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+NotMigrated_and_InactiveCustomerList_not.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+NotMigrated_and_InactiveCustomerList_not.sql 
+
+--Not migrated customer with reason.
+SELECT DISTINCT
+       a.LEG_USERID,
+       a.LEG_CUST_ID,
+       CASE
+          WHEN c.INDIVIDUAL = 'N' THEN 'This is non retail customer'
+          WHEN REGEXP_LIKE (a.LEG_USERID, UNISTR ('[\0600-\06FF]'))OR LEG_USERID LIKE '% %' THEN 'UserId Contains Arabic letters or spaces'
+          WHEN d.SCAI30 = 'Y' THEN 'This customer''s account is closed'
+          WHEN d.SCAI30 = 'N' THEN 'This customer''s account is not closed'
+          WHEN d.SCAI30 IS NULL THEN 'There is no accounts for this customer'
+       END
+          reason_for_not_migrating
+  FROM e_banking_user_report a
+       LEFT JOIN gfpf b ON b.GFBRNM || b.GFCUS = a.LEG_CUST_ID
+       LEFT JOIN scpf d ON d.SCAN = b.GFCPNC
+       LEFT JOIN map_cif c ON c.GFBRNM || c.GFCUS = b.GFBRNM || b.GFCUS
+ WHERE CASE
+          WHEN c.INDIVIDUAL = 'N' THEN 1
+          WHEN c.GFBRNM || c.GFCUS IS NULL THEN 1
+          WHEN REGEXP_LIKE (a.LEG_USERID, UNISTR ('[\0600-\06FF]')) OR LEG_USERID LIKE '% %' THEN 1
+          ELSE 0
+       END = 1;
+	   
+------------------------------------------------------------------------------------------------------------	   
+
+--Inactive customers	   
+select a.CUSTOMER_NO,a.USER_ID from ONLINE_BANK_CUST_DTLS a
+left join ONLINE_BANK_CUST_DTLS_UNQ_DATA b on a.CUSTOMER_NO=b.CUSTOMER_NO and a.USER_ID=b.USERID
+where b.CUSTOMER_NO is null and b.USERID is nul
+
+ 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+PayeeMaster.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+PayeeMaster.sql 
+select 
+       NVL(TRIM(IP.CUSTOMER_NO),CONVERT_CODES('ALPHABET','Y')) LEG_CUSTOMER_NO ,FIN_PM.CORP_ID FIN_CORP_ID,CASE WHEN TRIM(IP.CUSTOMER_NO)= FIN_PM.CORP_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_CUSTOMER_NO,
+       NVL(TRIM(IP.PAYEE_NAME),CONVERT_CODES('ALPHABET','Y')) LEG_PAYEE_NAME,FIN_PM.BNF_NAME FIN_BNF_NAME,FIN_PM.CORP_ID FIN_CORP_ID,CASE WHEN TRIM(IP.PAYEE_NAME)= FIN_PM.BNF_NAME THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_NAME,
+       IP.PAYEE_ADDRESS1 LEG_PAYEE_ADDRESS1,FIN_PM.BNF_ADDRESS_1 FIN_BNF_ADDRESS_1,CASE WHEN TRIM(IP.PAYEE_ADDRESS1)= FIN_PM.BNF_ADDRESS_1 THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_ADDRESS1,
+       IP.PAYEE_ADDRESS2 LEG_PAYEE_ADDRESS2,FIN_PM.BNF_ADDRESS_2 FIN_BNF_ADDRESS_2,CASE WHEN TRIM(IP.PAYEE_ADDRESS2)= FIN_PM.BNF_ADDRESS_2 THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_ADDRESS2,
+       SUBSTR(IP.PAYEE_COUNTRY_CODE,1,5) LEG_PAYEE_COUNTRY_CODE,FIN_PM.BNF_CNTRY FIN_BNF_CNTRY,CASE WHEN SUBSTR(IP.PAYEE_COUNTRY_CODE,1,5)= FIN_PM.BNF_CNTRY THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_COUNTRY_CODE,
+       TRIM(IP.CONTACT_PHONENO) LEG_CONTACT_PHONENO,FIN_PM.BNF_MOB FIN_BNF_MOB,CASE WHEN TRIM(IP.CONTACT_PHONENO)= FIN_PM.BNF_MOB THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_COUNTRY_CODE,
+    --   NVL(BM.BANK_REF_NO ,CONVERT_CODES('DIGIT','Y')) LEG_BANK_REF_NO,FIN_PM.OTH_BANK_REF_NO FIN_OTH_BANK_REF_NO,
+       BD.INSTITUTION_NAME LEG_INSTITUTION_NAME,FIN_PM.BNF_BANK_NAME FIN_BNF_BANK_NAME,--NVL(TRIM(BD.INSTITUTION_NAME),CONVERT_CODES('ALPHABET','Y'))
+       TRIM(BD.ADDRESS) LEG_ADDRESS,FIN_PM.BNF_BANK_ADDRESS FIN_BNF_BANK_ADDRESS,--NVL(TRIM(BD.ADDRESS),CONVERT_CODES('ALPHABET','Y'))
+       IP.PAYEE_ACCOUNT LEG_PAYEE_ACCOUNT ,FIN_PM.HOME_BANK_BRANCH_CODE,--CASE WHEN IP.PAYEE_TYPE='Same' THEN TO_CHAR(SUBSTR(IP.PAYEE_ACCOUNT,2,3)) ELSE CONVERT_CODES('DIGIT','Y') END
+       BD.COUNTRY_CODE LEG_COUNTRY_CODE,FIN_PM.BNF_BANK_COUNTRY FIN_BNF_BANK_COUNTRY,--NVL(BD.COUNTRY_CODE,SUBSTR(CONVERT_CODES('ALPHABET','Y'),1,5))
+       TRIM(IP.PAYEE_ACCOUNT) LEG_PAYEE_ACCOUNT,FIN_PM.ACCOUNT_ID FIN_ACCOUNT_ID,CASE WHEN TRIM(IP.PAYEE_ACCOUNT) = FIN_PM.ACCOUNT_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_ACCOUNT,
+       IP.PAYEE_TRAN_CURRENCY LEG_PAYEE_TRAN_CURRENCY,FIN_PM.BNF_ACCT_CRN FIN_BNF_ACCT_CRN,CASE WHEN TRIM(IP.PAYEE_TRAN_CURRENCY)= FIN_PM.BNF_ACCT_CRN THEN 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_TRAN_CURRENCY,
+       BD.CITY_ZIPCODE LEG_CITY_ZIPCODE,FIN_PM.BNF_BANK_CITY_ZIP FIN_BNF_BANK_CITY_ZIP,--NVL(BD.CITY_ZIPCODE,CONVERT_CODES('ALPHANUMERIC','Y'))
+       IP.PAYEE_TYPE LEG_PAYEE_TYPE,BR.NETWORK_TYPE LEG_NETWORK_TYPE,FIN_PM.NETWORK_ID FIN_NETWORK_ID,--CASE WHEN TRIM(IP.PAYEE_TYPE)='Same' THEN 'HBK' ELSE  'OBK' END BANK_TYPE,NVL(BR.NETWORK_TYPE,CONVERT_CODES('ALPHANUMERIC','Y'))
+       CB.SWIFT_CODE LEG_SWIFT_CODE,FIN_PM.BANK_IDENTIFIER FIN_BANK_IDENTIFIER--CASE WHEN TRIM(CB.SWIFT_CODE) IS NULL THEN CONVERT_CODES('ALPHANUMERIC','Y') ELSE TO_CHAR(TRIM(CB.SWIFT_CODE)||'XXX') END
+ from 
+(SELECT  IP.* FROM INTERNET_PAYEE IP INNER JOIN( SELECT CUSTOMER_NO,TRIM(PAYEE_ACCOUNT) PAYEE_ACCOUNT,max(to_date(substr(DATE_AUTHORISED,1,19),
+ 'YYYY-MM-DD HH24:MI:SS')) MAX_DATE_AUTHORISED FROM 
+ INTERNET_PAYEE where status='A' and IS_DELETED='0' GROUP BY CUSTOMER_NO,TRIM(PAYEE_ACCOUNT)) IP1 ON IP.CUSTOMER_NO=IP1.CUSTOMER_NO AND TRIM(IP.PAYEE_ACCOUNT)=TRIM(IP1.PAYEE_ACCOUNT)
+ AND to_date(substr(IP.DATE_AUTHORISED,1,19),'YYYY-MM-DD HH24:MI:SS')  = IP1.MAX_DATE_AUTHORISED) IP
+  LEFT JOIN ( SELECT * FROM CORRESPONDENT_BANK WHERE ROWID IN (
+  SELECT MAX(ROWID) FROM CORRESPONDENT_BANK GROUP BY UPPER(NAME)
+  )) CB ON UPPER(IP.PAYEE_BANK) = UPPER(CB.NAME) AND UPPER(IP.PAYEE_BRANCH) = UPPER(CB.CITY)
+  LEFT JOIN (SELECT * FROM BANK_ROUTING_TABLE WHERE ROWID IN(SELECT MAX(ROWID) FROM BANK_ROUTING_TABLE GROUP BY ROUTING_NO )) BR ON  BR.ROUTING_NO = TRIM(CB.SWIFT_CODE)||'XXX'
+  LEFT JOIN BANK_DETAILS BD ON  BD.BANK_REF_NO = BR.BANK_REF_NO
+  LEFT JOIN BANK_MASTER_TABLE BM ON BM.HOST_BRANCH_CODE = (CASE WHEN IP.PAYEE_TYPE='Same' THEN SUBSTR(TRIM(IP.PAYEE_ACCOUNT),2,3) ELSE N'' END)
+  LEFT JOIN ECECUSER.PAYEE_MASTER@EBUAT_DBLINK FIN_PM ON TRIM(FIN_PM.CORP_ID) = trim(IP.CUSTOMER_NO)
+   and FIN_PM.BNF_NAME = trim(IP.PAYEE_NAME) 
+   and TRIM(FIN_PM.ACCOUNT_ID) = SUBSTR(trim(REPLACE(REPLACE(IP.PAYEE_ACCOUNT,'-',''),' ','')),1,34) and  FIN_PM.DB_TS='1' AND FIN_PM.BANK_ID='01'
+  WHERE  IP.STATUS = 'A' AND IP.IS_DELETED ='0'
+  
+  
+
+  select 
+  b.CORP_ID LEG_CIF_ID,NVL(c.cust_id,c.USER_ID) FIN_CIF_ID,case when NVL(b.CORP_ID,' ')=NVL(c.cust_id,' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIF_ID,
+  b.USER_ID LEG_USER_ID,c.USER_ID FIN_USER_ID,case when upper(NVL(TRIM(b.USER_ID),' '))=upper(NVL(TRIM(c.USER_ID),' ')) then 'TRUE' ELSE 'FALSE' END MATCH_USER_ID,
+  a.BNF_NAME LEG_BENEFICIARY_NAME,c.BNF_NAME FIN_BENEFICIARY_NAME,case when NVL(a.BNF_NAME,' ')=NVL(c.BNF_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BENEFICIARY_NAME,
+  a.BNF_ADDRESS_1 LEG_ADDRESS1,c.BNF_ADDRESS_1 FIN_ADDRESS1,case when NVL(a.BNF_ADDRESS_1,' ')=NVL(c.BNF_ADDRESS_1,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS1,
+  a.BNF_ADDRESS_2 LEG_ADDRESS2,c.BNF_ADDRESS_2 FIN_ADDRESS2,case when NVL(a.BNF_ADDRESS_2,' ')=NVL(c.BNF_ADDRESS_2,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS2,
+  a.BNF_ADDRESS_3 LEG_ADDRESS3,c.BNF_ADDRESS_3 FIN_ADDRESS3,case when NVL(a.BNF_ADDRESS_3,' ')=NVL(c.BNF_ADDRESS_3,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS3,
+  a.BNF_CNTRY LEG_BENEFICIARY_COUNTRY,c.BNF_CNTRY FIN_BENEFICIARY_COUNTRY,case when NVL(a.BNF_CNTRY,' ')=NVL(c.BNF_CNTRY,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BENEFICIARY_COUNTRY,
+  a.BNF_MOB LEG_MOBILE_NUM,c.BNF_MOB FIN_MOBILE_NUM,case when NVL(a.BNF_MOB,' ')=NVL(c.BNF_MOB,' ') then 'TRUE' ELSE 'FALSE' END MATCH_MOBILE_NUM,
+  a.BNF_BANK_NAME LEG_BEN_BANK_NAME,c.BNF_BANK_NAME FIN_BEN_BANK_NAME,case when NVL(a.BNF_BANK_NAME,' ')=NVL(c.BNF_BANK_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BEN_BANK_NAME,
+  a.ACCOUNT_ID LEG_BEN_ACCOUNT_NUM,c.ACCOUNT_ID FIN_BEN_ACCOUNT_NUM,case when UPPER(NVL(TRIM(a.ACCOUNT_ID),' '))=UPPER(NVL(TRIM(c.ACCOUNT_ID),' ')) then 'TRUE' ELSE 'FALSE' END MATCH_BEN_ACCOUNT_NUM,
+  a.BNF_ACCT_CRN LEG_BEN_ACCOUNT_CURRENCY,c.BNF_ACCT_CRN FIN_BEN_ACCOUNT_CURRENCY,case when NVL(a.BNF_ACCT_CRN,' ')=NVL(c.BNF_ACCT_CRN,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BEN_ACCOUNT_CURRENCY,
+  a.BANK_IDENTIFIER LEG_BIC_CODE,c.BANK_IDENTIFIER FIN_BIC_CODE,case when NVL(a.BANK_IDENTIFIER,' ')=NVL(c.BANK_IDENTIFIER,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BIC_CODE,
+  CASE WHEN a.NETWORK_ID = 'WIB' THEN 'Same' when a.NETWORK_ID='KASIP' then 'Local Bank' when a.NETWORK_ID='SWI' then 'International' end LEG_PAYEE_TYPE,
+  a.NETWORK_ID CONV_PAYEE_TYPE ,c.NETWORK_ID FIN_PAYEE_TYPE,case when NVL(a.NETWORK_ID,' ')=NVL(c.NETWORK_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_TYPE
+   from PAYEE_MASTER_O_TABLE a
+  left join CUSTOMER_PAYEE_O_TABLE b on a.BNF_ID = b.BNF_ID
+  left join (
+  select a.*,b.USER_ID,c.cust_id from ECECUSER.PAYEE_MASTER@dbread_user a
+  left join ECECUSER.CUSTOMER_PAYEE@dbread_user b on a. BNF_ID = b.BNF_ID 
+  left join  ececuser.cusr@dbread_user c on  trim(c.USER_ID) = TRIM(a.corp_id) and c.bank_id='01'
+  where a.bank_id='01' and b.bank_id='01'
+  ) c on c.FREE_FIELD_1 = a.BNF_ID 
+  
+  
+  
+  
+  -----------------------KRIS-------------------------------
+  
+  
+  select distinct 
+  b.CORP_ID LEG_CIF_ID,NVL(c.cust_id,c.USER_ID) FIN_CIF_ID,case when NVL(b.CORP_ID,' ')=NVL(c.cust_id,' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIF_ID,
+  b.USER_ID LEG_USER_ID,c.USER_ID FIN_USER_ID,case when upper(NVL(TRIM(b.USER_ID),' '))=upper(NVL(TRIM(c.USER_ID),' ')) then 'TRUE' ELSE 'FALSE' END MATCH_USER_ID,
+  a.BNF_NAME LEG_BENEFICIARY_NAME,c.BNF_NAME FIN_BENEFICIARY_NAME,case when NVL(a.BNF_NAME,' ')=NVL(c.BNF_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BENEFICIARY_NAME,
+  a.BNF_ADDRESS_1 LEG_ADDRESS1,c.BNF_ADDRESS_1 FIN_ADDRESS1,case when NVL(a.BNF_ADDRESS_1,' ')=NVL(c.BNF_ADDRESS_1,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS1,
+  a.BNF_ADDRESS_2 LEG_ADDRESS2,c.BNF_ADDRESS_2 FIN_ADDRESS2,case when NVL(a.BNF_ADDRESS_2,' ')=NVL(c.BNF_ADDRESS_2,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS2,
+  a.BNF_ADDRESS_3 LEG_ADDRESS3,c.BNF_ADDRESS_3 FIN_ADDRESS3,case when NVL(a.BNF_ADDRESS_3,' ')=NVL(c.BNF_ADDRESS_3,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADRESS3,
+  a.BNF_CNTRY LEG_BENEFICIARY_COUNTRY,c.BNF_CNTRY FIN_BENEFICIARY_COUNTRY,case when NVL(a.BNF_CNTRY,' ')=NVL(c.BNF_CNTRY,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BENEFICIARY_COUNTRY,
+  a.BNF_MOB LEG_MOBILE_NUM,c.BNF_MOB FIN_MOBILE_NUM,case when NVL(a.BNF_MOB,' ')=NVL(c.BNF_MOB,' ') then 'TRUE' ELSE 'FALSE' END MATCH_MOBILE_NUM,
+  a.BNF_BANK_NAME LEG_BEN_BANK_NAME,c.BNF_BANK_NAME FIN_BEN_BANK_NAME,case when NVL(a.BNF_BANK_NAME,' ')=NVL(c.BNF_BANK_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BEN_BANK_NAME,
+  a.ACCOUNT_ID LEG_BEN_ACCOUNT_NUM,c.ACCOUNT_ID FIN_BEN_ACCOUNT_NUM,case when UPPER(NVL(TRIM(a.ACCOUNT_ID),' '))=UPPER(NVL(TRIM(c.ACCOUNT_ID),' ')) then 'TRUE' ELSE 'FALSE' END MATCH_BEN_ACCOUNT_NUM,
+  a.BNF_ACCT_CRN LEG_BEN_ACCOUNT_,c.BNF_ACCT_CRN FIN_BEN_ACCOUNT_CURRENCY,case when NVL(a.BNF_ACCT_CRN,' ')=NVL(c.BNF_ACCT_CRN,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BEN_ACCOUNT_CURRENCY,
+  a.BANK_IDENTIFIER LEG_BIC_CODE,c.BANK_IDENTIFIER FIN_BIC_CODE,case when NVL(a.BANK_IDENTIFIER,' ')=NVL(c.BANK_IDENTIFIER,' ') then 'TRUE' ELSE 'FALSE' END MATCH_BIC_CODE,
+  CASE WHEN a.NETWORK_ID = 'WIB' THEN 'Same' when a.NETWORK_ID='KASIP' then 'Local Bank' when a.NETWORK_ID='SWI' then 'International' end LEG_PAYEE_TYPE,
+  a.NETWORK_ID CONV_PAYEE_TYPE ,c.NETWORK_ID FIN_PAYEE_TYPE,case when NVL(a.NETWORK_ID,' ')=NVL(c.NETWORK_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_PAYEE_TYPE
+   from PAYEE_MASTER_O_TABLE a
+  left join CUSTOMER_PAYEE_O_TABLE b on a.BNF_ID = b.BNF_ID
+  left join (select a.*,b.USER_ID,c.cust_id from ececuser.cusr@dbread_user c
+  left join ECECUSER.CUSTOMER_PAYEE@dbread_user b on c.USER_ID=b.USER_ID
+  left join ECECUSER.PAYEE_MASTER@dbread_user a on a.corp_id=b.corp_id)c on c.FREE_FIELD_1 = a.BNF_ID 
+   
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+Retail_InternetUserReport.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+Retail_InternetUserReport.sql 
+select DISTINCT
+--LPAD(E_BANKING_REC_SEQ.NEXTVAL,5,'0') REC_NUM,
+       O.CUSTOMER_NO LEG_CUST_ID,FIN_IU.CUST_ID FIN_CUST_ID,CASE WHEN O.CUSTOMER_NO = FIN_IU.CUST_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_CUSTOMER_NO ,
+        O.USERID LEG_USERID,FIN_IU.USER_ID FIN_USER_ID,CASE WHEN O.USERID = FIN_IU.USER_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_USERID ,
+   --    CASE WHEN LENGTH(REPLACE(A.SALUTATION,'','.'))=1 THEN CONVERT_CODES('ALPHABET','Y') ELSE TO_CHAR(A.SALUTATION) END SALUTATION,FIN_IU.SALUTATION,
+   --    CASE WHEN LENGTH(REPLACE(A.CUST_LAST_NAME,'','.'))=1 THEN CONVERT_CODES('ALPHABET','Y') ELSE TO_CHAR(A.CUST_LAST_NAME) END C_L_NAME,FIN_IU.C_L_NAME,
+   --    CASE WHEN LENGTH(REPLACE(NVL(A.CUST_MIDDLE_NAME,' '),'','.'))=1 THEN CONVERT_CODES('ALPHABET','Y') ELSE TO_CHAR(A.CUST_MIDDLE_NAME) END C_M_NAME,FIN_IU.C_M_NAME,
+   --    CASE WHEN LENGTH(REPLACE(A.CUST_FIRST_NAME,'','.'))=1 THEN CONVERT_CODES('ALPHABET','Y') ELSE TO_CHAR(A.CUST_FIRST_NAME) END C_F_NAME,FIN_IU.C_F_NAME,
+       O.email LEG_C_EMAIL_ID ,FIN_IU.C_EMAIL_ID FIN_C_EMAIL_ID,CASE WHEN O.email = FIN_IU.C_EMAIL_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_C_EMAIL_ID ,
+       TRIM(A.ADDRESS_LINE1)LEG_C_ADDR1,FIN_IU.C_ADDR1 FIN_C_ADDR1,CASE WHEN TRIM(A.ADDRESS_LINE1) = FIN_IU.C_ADDR1 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE1 ,
+       A.ADDRESS_LINE2 LEG_ADDRESS_LINE2,FIN_IU.C_ADDR2 FIN_C_ADDR2,CASE WHEN TRIM(A.ADDRESS_LINE2) = FIN_IU.C_ADDR2 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE2 ,
+       A.ADDRESS_LINE3 LEG_ADDRESS_LINE3,FIN_IU.C_ADDR3 FIN_C_ADDR3,CASE WHEN TRIM(A.ADDRESS_LINE3) = FIN_IU.C_ADDR3 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE3 ,
+    --   A.PHONE C_PHONE_NO,FIN_IU.C_PHONE_NO,CASE WHEN TRIM(A.PHONE) = FIN_IU.C_PHONE_NO THEN 'TRUE' ELSE 'FALSE' END MATCH_C_PHONE_NO ,
+       A.GENDER LEG_GENDER,FIN_IU.C_GENDER FIN_C_GENDER,CASE WHEN TRIM(A.GENDER) = FIN_IU.C_GENDER THEN 'TRUE' ELSE 'FALSE' END MATCH_C_GENDER ,
+       A.CUST_dob LEG_DATE_OF_BIRTH,FIN_IU.DATE_OF_BIRTH FIN_DATE_OF_BIRTH,CASE WHEN TRIM(A.CUST_dob) = FIN_IU.DATE_OF_BIRTH THEN 'TRUE' ELSE 'FALSE' END MATCH_DATE_OF_BIRTH ,
+       A.NAT_ID_CARD_NUM LEG_PAN_NATIONAL_ID,FIN_IU.PAN_NATIONAL_ID FIN_PAN_NATIONAL_ID,CASE WHEN TRIM(A.NAT_ID_CARD_NUM) = FIN_IU.PAN_NATIONAL_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_PAN_NATIONAL_ID,
+      -- SUBSTR(O.USERID ,1,32) PRINCIPAL_ID,CU.PRINCIPAL_ID,
+      -- SUBSTR(O.USERID ,1,32) BAY_USER_ID,CU.BAY_USER_ID,
+       TRIM(O.LANGUAGE) LEG_LANGUAGE ,FIN_IU.LANG_ID FIN_LANG_ID
+FROM       
+ (SELECT A.CUSTOMER_NO,U.USERID,A.email,U.LANGUAGE,U.CIVILID,A.STATUS FROM ONLINE_BANK_CUST_DTLS A
+    INNER JOIN( SELECT CUSTOMER_NO,MAX (TO_DATE (SUBSTR (LASTLOG_DATE, 1, 19),'YYYY-MM-DD HH24:MI:SS'))MAX_LASTLOG_DATE
+            FROM ONLINE_BANK_CUST_DTLS GROUP BY CUSTOMER_NO) B
+          ON A.CUSTOMER_NO = B.CUSTOMER_NO
+             AND TO_DATE (SUBSTR (A.LASTLOG_DATE, 1, 19),  'YYYY-MM-DD HH24:MI:SS') = B.MAX_LASTLOG_DATE
+    INNER JOIN (SELECT * FROM USERS WHERE DELETEFLAG = '0' AND STATUS = 'A') U ON A.CUSTOMER_NO = U.CUSTOMERNO AND A.USER_ID=U.USERID
+ WHERE  A.STATUS='A' or ( A.STATUS='D' and to_date(substr(LASTLOG_DATE,1,19),'YYYY-MM-DD HH24:MI:SS') > to_date('2015-09-26 09:48:36','YYYY-MM-DD HH24:MI:SS' ))) O
+LEFT JOIN map_cif M ON SUBSTR (M.fin_cif_id, 2, 10) = SUBSTR (O.CUSTOMER_NO, 2, 10) and individual = 'Y'
+LEFT JOIN CRMUSER.ACCOUNTS A ON A.ORGKEY = M.fin_cif_id  and  a.bank_id = get_param ('BANK_ID')
+LEFT JOIN (SELECT DISTINCT FIN_CUSR.* FROM ECECUSER.CUSR@EBUAT_DBLINK FIN_CUSR
+inner JOIN ECECUSER.CSIP@EBUAT_DBLINK FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) FIN_IU ON trim(O.CUSTOMER_NO) = trim(FIN_IU.CUST_ID)--  AND FIN_IU.USER_ID = TRIM(O.USERID)
+
+select 
+a.CUST_ID LEG_CIF_ID,b.CUST_ID FIN_CIF_ID,case when NVL(a.CUST_ID,' ') = NVL(b.CUST_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIF_ID, 
+a.CORP_USER LEG_USER_ID,b.USER_ID FIN_USER_ID,case when upper(NVL(trim(a.CORP_USER),' ')) = NVL(b.USER_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_USER_ID,
+a.C_L_NAME LEG_LAST_NAME,b.C_L_NAME FIN_LAST_NAME ,case when NVL(a.C_L_NAME,' ') = NVL(b.C_L_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_LAST_NAME,
+a.C_M_NAME LEG_MIDDLE_NAME,b.C_M_NAME FIN_MIDDLE_NAME,case when NVL(a.C_M_NAME,' ') = NVL(b.C_M_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_MIDDLE_NAME,
+a.C_F_NAME LEG_FIRST_NAME,b.C_F_NAME FIN_FIRST_NAME,case when NVL(a.C_F_NAME ,' ')= NVL(b.C_F_NAME,' ') then 'TRUE' ELSE 'FALSE' END MATCH_FIRST_NAME,
+a.C_EMAIL_ID LEG_EMAIL_ID,b.C_EMAIL_ID FIN_EMAIL_ID,case when NVL(a.C_EMAIL_ID,' ') = NVL(b.C_EMAIL_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_EMAIL_ID,
+a.C_ADDR1 LEG_ADDRESS1,b.C_ADDR1 FIN_ADDRESS1,case when NVL(a.C_ADDR1 ,' ')= NVL(b.C_ADDR1,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS1,
+a.C_ADDR2 LEG_ADDRESS2,b.C_ADDR2 FIN_ADDRESS2,case when NVL(a.C_ADDR2,' ') = NVL(b.C_ADDR2,' ') then 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS2,
+a.C_GENDER LEG_GENDER,b.C_GENDER FIN_GENDER,case when NVL(a.C_GENDER,' ') = NVL(b.C_GENDER,' ') then 'TRUE' ELSE 'FALSE' END MATCH_GENDER,
+--a.DATE_OF_BIRTH LEG_DATE_OF_BIRTH,b.DATE_OF_BIRTH FIN_DATE_OF_BIRTH,case when NVL(a.DATE_OF_BIRTH,sysdate) = NVL(b.DATE_OF_BIRTH,sysdate) then 'TRUE' ELSE 'FALSE' END MATCH_DATE_OF_BIRTH,
+a.PAN_NATIONAL_ID LEG_CIVIL_ID,b.PAN_NATIONAL_ID FIN_CIVIL_ID,case when NVL(a.PAN_NATIONAL_ID,' ') = NVL(b.PAN_NATIONAL_ID,' ') then 'TRUE' ELSE 'FALSE' END MATCH_CIVIL_ID
+ from SMS_AND_E_BANKING_USER_O_TABLE A
+LEFT JOIN (
+SELECT DISTINCT * FROM ECECUSER.CUSR@DBREAD_USER FIN_CUSR
+inner JOIN ECECUSER.CSIP@DBREAD_USER FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) B ON A.CUST_ID = B.CUST_ID 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMSUserReport_not.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMSUserReport_not.sql 
+select 
+       S.CU01_CLC||S.CU01_CUS LEG_CUST_ID,FIN_IU.CUST_ID FIN_CUST_ID,CASE WHEN S.CU01_CLC||S.CU01_CUS = FIN_IU.CUST_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_CUSTOMER_NO ,
+        '' LEG_CORP_USER,FIN_IU.USER_ID FIN_USER_ID,CASE WHEN '' = FIN_IU.USER_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_USERID ,
+       TRIM(A.ADDRESS_LINE1)LEG_ADDRESS_LINE1,FIN_IU.C_ADDR1 FIN_C_ADDR1,CASE WHEN TRIM(A.ADDRESS_LINE1) = FIN_IU.C_ADDR1 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE1 ,
+       A.ADDRESS_LINE2 LEG_ADDRESS_LINE2,FIN_IU.C_ADDR2 FIN_C_ADDR2,CASE WHEN TRIM(A.ADDRESS_LINE2) = FIN_IU.C_ADDR2 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE2 ,
+       A.ADDRESS_LINE3 LEG_ADDRESS_LINE3,FIN_IU.C_ADDR3 FIN_C_ADDR3,CASE WHEN TRIM(A.ADDRESS_LINE3) = FIN_IU.C_ADDR3 THEN 'TRUE' ELSE 'FALSE' END MATCH_ADDRESS_LINE3 ,
+     --  A.PHONE C_PHONE_NO,FIN_IU.C_PHONE_NO,CASE WHEN TRIM(A.PHONE) = FIN_IU.C_PHONE_NO THEN 'TRUE' ELSE 'FALSE' END MATCH_C_PHONE_NO ,
+     S.CU01_MOBPN LEG_CU01_MOBPN,FIN_IU.PRINCIPAL_ID FIN_MOBILE_NUM,CASE WHEN TRIM(S.CU01_MOBPN) = FIN_IU.PRINCIPAL_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_MOBILE_NUM ,
+       A.GENDER LEG_GENDER,FIN_IU.C_GENDER FIN_GENDER,CASE WHEN TRIM(A.GENDER) = FIN_IU.C_GENDER THEN 'TRUE' ELSE 'FALSE' END MATCH_C_GENDER ,
+       A.CUST_dob LEG_DATE_OF_BIRTH,FIN_IU.DATE_OF_BIRTH FIN_DATE_OF_BIRTH,CASE WHEN TRIM(A.CUST_dob) = FIN_IU.DATE_OF_BIRTH THEN 'TRUE' ELSE 'FALSE' END MATCH_CUST_dob ,
+    --   A.NAT_ID_CARD_NUM LEG_NAT_ID_CARD_NUM,FIN_IU.PAN_NATIONAL_ID FIN_PAN_NATIONAL_ID,CASE WHEN TRIM(A.NAT_ID_CARD_NUM) = FIN_IU.PAN_NATIONAL_ID THEN 'TRUE' ELSE 'FALSE' END MATCH_PAN_NATIONAL_ID,
+       CU01_LANG LEG_CU01_LANG,FIN_IU.LANG_ID FIN_LANG_ID
+        from 
+        YSMSCUPF01 S             
+       LEFT JOIN map_cif M ON SUBSTR (M.fin_cif_id, 2, 10) = SUBSTR ('0'||S.CU01_CLC||S.CU01_CUS, 2, 10) and individual = 'Y' 
+       LEFT JOIN CRMUSER.ACCOUNTS A ON A.ORGKEY = M.fin_cif_id AND a.bank_id = get_param ('BANK_ID')  
+       LEFT JOIN (SELECT DISTINCT FIN_CUSR.*,FIN_CSIP.PRINCIPAL_ID FROM ECECUSER.CUSR@EBUAT_DBLINK FIN_CUSR
+inner JOIN ECECUSER.CSIP@EBUAT_DBLINK FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='S' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' -- AND FIN_CSIP.DEL_FLG='N'
+) FIN_IU ON FIN_IU.CUST_ID = ('0'||S.CU01_CLC||S.CU01_CUS)
+ WHERE S.CU01_STS ='A'; 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMS_REGISTRATION.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMS_REGISTRATION.sql 
+SELECT 
+l_smsal.CUST_ID LEG_CUST_ID,f_smsal.CUST_ID FIN_CUST_ID,Case when (l_smsal.CUST_ID) = (f_smsal.CUST_ID) then 'TRUE' else 'FALSE' end MATCH_CUST_ID,
+l_smsal.CORP_ID LEG_CORP_ID,f_smsal.CORP_ID FIN_CORP_ID,Case when (l_smsal.CORP_ID) = (f_smsal.CORP_ID) then 'TRUE' else 'FALSE' end MATCH_CORP_ID,
+l_smsal.RELATED_PARTY_ID LEG_RELATED_PARTY,f_smsal.RELATED_PARTY_ID FIN_RELATED_PARTY,Case when (l_smsal.RELATED_PARTY_ID) = (f_smsal.RELATED_PARTY_ID) then 'TRUE' else 'FALSE' end MATCH_RELATED_PARTY,
+l_smsal.CUST_FIRST_NAME LEG_FIRST_NAME,f_smsal.CUST_FIRST_NAME FIN_FIRST_NAME,Case when upper(l_smsal.CUST_FIRST_NAME) = upper(f_smsal.CUST_FIRST_NAME) then 'TRUE' else 'FALSE' end MATCH_FIRST_NAME,
+l_smsal.CUST_MID_NAME LEG_MID_NAME,f_smsal.CUST_MID_NAME FIN_MID_NAME,Case when upper(l_smsal.CUST_MID_NAME) = upper(f_smsal.CUST_MID_NAME) then 'TRUE' else 'FALSE' end MATCH_MID_NAME,
+l_smsal.CUST_LAST_NAME LEG_LAST_NAME,f_smsal.CUST_LAST_NAME FIN_LAST_NAME,Case when upper(l_smsal.CUST_LAST_NAME) = upper(f_smsal.CUST_LAST_NAME) then 'TRUE' else 'FALSE' end MATCH_LAST_NAME,
+l_smsal.C_MOBILE_NO LEG_MOBILE_NO,f_smsad.C_MOBILE_NO FIN_MOBILE_NO,case when (l_smsal.C_MOBILE_NO) = (f_smsad.C_MOBILE_NO) then 'TRUE' else 'FALSE' end MATCH_MOBILENO ,
+l_smsal.PREF_TIME_ZONE LEG_SERVICE_PROVIDER,f_smsad.FREE_TEXT_1 FIN_SERVICE_PROVIDER,case when nvl(trim(l_smsal.PREF_TIME_ZONE),' ')= nvl(trim(f_smsad.FREE_TEXT_1),' ') then 'TRUE' else 'FALSE' end MATCH_SERVICE_PROVIDER ,
+l_smsal.USER_CATEGORY_NAME USER_CATEGORY
+FROM SMS_ALERTS_REG_O_TABLE l_smsal
+left join (select * from alertuser.aurt@dbread_alert where bank_id='01')f_smsal on l_smsal.CUST_ID=f_smsal.CUST_ID and l_smsal.CORP_ID=f_smsal.CORP_ID
+left join (select * from alertuser.alad@dbread_alert where bank_id='01')f_smsad on l_smsal.CUST_ID=f_smsad.CUST_ID and l_smsal.CORP_ID=f_smsad.CORP_ID 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMS_SUBSCRIPTION.SQL 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+SMS_SUBSCRIPTION.SQL 
+select
+lsms.CORP_ID LEG_CUST_ID,
+fsmss.CORP_ID FIN_CUST_ID,
+Case when (lsms.CORP_ID) = (fsmss.CORP_ID) then 'TRUE' else 'FALSE' end CUST_ID_MATCH,
+lsms.ALRT_ACCT_ID LEG_ALERT_ACCOUNT,
+fsmss.ALRT_ACCT_ID LEG_ALERT_ACCOUNT,
+case when upper(trim(lsms.ALRT_ACCT_ID)) = upper(trim(fsmss.ALRT_ACCT_ID)) then 'TRUE' else 'FALSE' end ALERT_ACCOUNT_MATCH ,
+upper(trim(lsms.ALERT_ID))  LEG_ALERT_ID, 
+upper(trim(fsmss.ALERT_ID)) FIN_ALERT_ID,
+case when upper(trim(lsms.ALERT_ID)) = upper(trim(fsmss.ALERT_ID)) then 'TRUE' else 'FALSE' end ALERT_ID_MATCH,
+lsms.USER_CATEGORY_NAME LEG_CATEGORY_NAME,
+fsmss.USER_CATEGORY_NAME LEG_CATEGORY_NAME, 
+case when upper(trim(lsms.USER_CATEGORY_NAME)) = upper(trim(fsmss.USER_CATEGORY_NAME)) then 'TRUE' else 'FALSE' end CATEGORY_NAME_MATCH,
+lsms.AMOUNT1 LEG_AMOUNT1,
+fsmss.AMOUNT1 FIN_AMOUNT1,
+case when (lsms.AMOUNT1) = (fsmss.AMOUNT1) then 'TRUE' else 'FALSE' end AMOUNT1_MATCH 
+from SMS_ALERTS_SUB_O_TABLE lsms
+left join (select * from alertuser.ault@dbread_alert where bank_id='01')fsmss on lsms.CORP_ID=fsmss.CORP_ID and upper(trim(lsms.ALRT_ACCT_ID)) = upper(trim(fsmss.ALRT_ACCT_ID))
+and upper(trim(lsms.ALERT_ID)) = upper(trim(fsmss.ALERT_ID))
+--select * from alertuser.ausm@dbread_alert  
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+validationScript.sql 
+========================================================================================================================================================================================== 
+****************************************************************************************************************************************************************************************** 
+validationScript.sql 
+--SMS REGISTRATION
+  SELECT  REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT YSMSCUPF01.*,CASE WHEN TRIM(CU01_STS) !='A' THEN 'INACTIVE RECORD'
+                        WHEN FIN_CIF_ID IS NULL THEN 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+                        WHEN CONV_TO_VALID_DATE(TRIM(CU01_DTER),'YYYYMMDD') <= TO_DATE(GET_PARAM('EOD_DATE'),'DD-MM-YYYY') THEN 'AUTO RENEWAL DATE IS LESS THAN '||TO_DATE(GET_PARAM('EOD_DATE'),'DD-MM-YYYY')
+                        WHEN IS_JOINT= 'Y' THEN 'JOINT CUSTOMER' 
+                         WHEN  CONV_TO_VALID_DATE(TRIM(CU01_DTER),'YYYYMMDD') < TO_DATE('10-07-2017','DD-MM-YYYY') THEN 'EXPIRY DATE IS LESS THAN MIGRATION DATE' 
+                        ELSE 'SUBSCRIPTION DETAILS NOT EXIST OR CLOSED ACCOUNTS' END REASON_FOR_NOT_MIGRATING
+                        FROM YSMSCUPF01
+LEFT JOIN MAP_CIF M ON GFCLC =CU01_CLC AND GFCUS =CU01_CUS 
+WHERE TRIM(CU01_CLC)||TRIM(CU01_CUS) NOT IN(SELECT SUBSTR(CUST_ID,2) FROM SMS_ALERTS_REG_O_TABLE)
+) GROUP BY REASON_FOR_NOT_MIGRATING
+
+
+--SMS SUBSCRIPTION
+SELECT  REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT YSMSACPF01.*,CASE WHEN NVL(AC01_STS,' ') !='A' THEN 'INACTIVE RECORD'
+                        WHEN FIN_ACC_NUM IS NULL THEN  'ACCOUNT NOT MIGRATED' 
+                        ELSE 'ALERT REGISTRATION NOT AVAILABLE OR NOT MIGRATED' END REASON_FOR_NOT_MIGRATING FROM YSMSACPF01 
+                        LEFT JOIN MAP_ACC MA ON MA.LEG_BRANCH_ID||MA.LEG_SCAN||MA.LEG_SCAS = AC01_SEAN
+                        WHERE AC01_SEAN NOT IN(SELECT LEG_BRANCH_ID||LEG_SCAN||LEG_SCAS FROM SMS_ALERTS_SUB_O_TABLE INNER JOIN MAP_ACC MA ON ALRT_ACCT_ID = FIN_ACC_NUM)
+)GROUP BY REASON_FOR_NOT_MIGRATING
+
+
+--CORPORATE E-BANKING USER
+ SELECT REASON_FOR_NOT_MIGRATING ,COUNT(*) FROM(
+  SELECT CU.*,'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' REASON_FOR_NOT_MIGRATING FROM CORP_EBANKING_USER  CU
+     LEFT JOIN MAP_CIF M ON M.FIN_CIF_ID = TRIM(CU.CIF_ID)
+     LEFT JOIN CRMUSER.ACCOUNTS A ON A.ORGKEY = M.FIN_CIF_ID AND A.BANK_ID = GET_PARAM ('BANK_ID')
+  WHERE ORGKEY IS NULL
+  ) GROUP BY REASON_FOR_NOT_MIGRATING;
+  
+ SELECT REASON_FOR_NOT_MIGRATING ,COUNT(*) FROM(
+  SELECT CU.*,case WHEN  individual = 'Y' THEN 'THIS IS RETAIL USER' when M.FIN_CIF_ID is null then 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+  else 'DUPLICATE CORP_ID AND USER_ID' END REASON_FOR_NOT_MIGRATING FROM CORP_EBANKING_USER  CU
+     LEFT JOIN MAP_CIF M ON TRIM(M.FIN_CIF_ID) = TRIM(CU.CIF_ID)
+     LEFT JOIN CRMUSER.ACCOUNTS A ON A.ORGKEY = M.FIN_CIF_ID AND A.BANK_ID = GET_PARAM ('BANK_ID')
+     left join  (
+SELECT DISTINCT * FROM ECECUSER.CUSR@DBREAD_USER FIN_CUSR
+inner JOIN ECECUSER.CSIP@DBREAD_USER FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) b on  cu.cif_id = B.CUST_ID and upper(NVL(trim(cu.USER_ID),' ')) = NVL(b.USER_ID,' ')
+  WHERE ORGKEY IS NULL or B.CUST_ID is null
+  ) GROUP BY REASON_FOR_NOT_MIGRATING;
+  
+   SELECT REASON_FOR_NOT_MIGRATING ,COUNT(*) FROM(
+  SELECT CU.*,'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' REASON_FOR_NOT_MIGRATING FROM CORP_EBANKING_USER_retail  CU
+     LEFT JOIN MAP_CIF M ON M.FIN_CIF_ID = TRIM(CU.CIF_ID)
+     LEFT JOIN CRMUSER.ACCOUNTS A ON A.ORGKEY = M.FIN_CIF_ID AND A.BANK_ID = GET_PARAM ('BANK_ID')
+     left join  (
+SELECT DISTINCT * FROM ECECUSER.CUSR@DBREAD_USER FIN_CUSR
+inner JOIN ECECUSER.CSIP@DBREAD_USER FIN_CSIP ON FIN_CSIP.INDIVIDUAL_ID = FIN_CUSR.INDIVIDUAL_ID  
+WHERE FIN_CSIP.CHANNEL_ID='I' and FIN_CUSR.DB_TS='1' AND FIN_CUSR.DB_TS='1' and FIN_CSIP.DB_TS='1'  AND FIN_CUSR.BANK_ID='01' and USER_ID not like 'SMS%'-- AND FIN_CSIP.DEL_FLG='N'
+) b on  cu.cif_id = B.CUST_ID and upper(NVL(trim(cu.USER_ID),' ')) = NVL(b.USER_ID,' ')
+  WHERE ORGKEY IS NULL or B.CUST_ID is null
+  ) GROUP BY REASON_FOR_NOT_MIGRATING;
+  
+--CORPORATE USER ACCESS ACCOUNT
+ 
+ DROP TABLE USER_ACCOUNT_ACCESS_MIGRATED;
+ 
+ CREATE TABLE USER_ACCOUNT_ACCESS_MIGRATED AS
+SELECT  TRIM(NEEAN) ACCESS_TO_ACCOUNT_NUMBER FROM USER_ACCOUNT_ACCESS_O_TABLE
+INNER JOIN MAP_ACC ON FIN_ACC_NUM = TRIM(ACID)
+INNER JOIN NEPF ON TRIM (NEAB)||TRIM(NEAN)||TRIM(NEAS) = LEG_BRANCH_ID||LEG_SCAN||LEG_SCAS 
+
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT DISTINCT E_BANKING_USER_ACCOUNT_ACCESS.*,CASE WHEN NEEAN IS NULL THEN 'ACCOUNT DOES NOT EXISTS AS OF '||TO_DATE(GET_PARAM('EOD_DATE'),'DD-MM-YYYY')
+                                            WHEN FIN_ACC_NUM IS NULL THEN 'ACCOUNT NOT MIGRATING IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'
+                                            WHEN MAP_ACC.SCHM_TYPE='OOO'  THEN 'OFFICE ACCOUNT IN EQUATION' 
+                                             WHEN SCHM_TYPE NOT IN('SBA','CAA','ODA') THEN 'NOT A OPERATIVE ACCOUNT NUMBER' END REASON_FOR_NOT_MIGRATING  FROM
+E_BANKING_USER_ACCOUNT_ACCESS
+LEFT JOIN NEPF ON TRIM (NEEAN) = TRIM (ACCESS_TO_ACCOUNT_NUMBER)
+LEFT JOIN MAP_ACC ON LEG_BRANCH_ID || LEG_SCAN || LEG_SCAS = TRIM(NEAB) || TRIM(NEAN )|| TRIM(NEAS)
+WHERE TRIM(ACCESS_TO_ACCOUNT_NUMBER) NOT IN(SELECT TRIM(ACCESS_TO_ACCOUNT_NUMBER) FROM USER_ACCOUNT_ACCESS_MIGRATED)
+) GROUP BY REASON_FOR_NOT_MIGRATING
+
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT DISTINCT E_BANKING_USER_ACCOUNT_ACCESS.*,CASE WHEN NEEAN IS NULL THEN 'ACCOUNT DOES NOT EXISTS AS OF '||TO_DATE(GET_PARAM('EOD_DATE'),'DD-MM-YYYY')
+                                            WHEN FIN_ACC_NUM IS NULL THEN 'ACCOUNT NOT MIGRATING IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'
+                                            WHEN MAP_ACC.SCHM_TYPE='OOO'  THEN 'OFFICE ACCOUNT IN EQUATION' 
+                                             WHEN SCHM_TYPE NOT IN('SBA','CAA','ODA') THEN 'NOT A OPERATIVE ACCOUNT NUMBER' END REASON_FOR_NOT_MIGRATING  FROM
+E_BANKING_USER_ACCOUNT_ACCESS
+LEFT JOIN NEPF ON TRIM (NEEAN) = TRIM (ACCESS_TO_ACCOUNT_NUMBER)
+LEFT JOIN MAP_ACC ON LEG_BRANCH_ID || LEG_SCAN || LEG_SCAS = TRIM(NEAB) || TRIM(NEAN )|| TRIM(NEAS)
+WHERE trim(ACCESS_TO_ACCOUNT_NUMBER) not in(select trim(ACID) from USER_ACCOUNT_ACCESS_O_TABLE)
+) GROUP BY REASON_FOR_NOT_MIGRATING
+  
+  
+--SMS BANKING USER
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT YSMSCUPF01.*,CASE WHEN INDIVIDUAL='N' THEN 'CORPORATE SMS BANKING CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+                         WHEN TRIM(CU01_STS) !='A' THEN 'INACTIVE RECORD'
+                        WHEN FIN_CIF_ID IS NULL THEN 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+                        WHEN CIF IS NULL THEN 'NO NEED TO MIGRATE AND NOT THERE IN TO BE MIGRATED LIST'
+                        ELSE 'SUBSCRIPTION DETAILS NOT EXIST OR CLOSED ACCOUNTS' END REASON_FOR_NOT_MIGRATING
+                        FROM YSMSCUPF01
+LEFT JOIN MAP_CIF M ON GFCLC =CU01_CLC AND GFCUS =CU01_CUS AND IS_JOINT <> 'Y'
+LEFT JOIN SMS_BANK_CIF ON TRIM(CIF) = trim(CU01_CLC)||trim(CU01_CUS) 
+WHERE '0'||TRIM(CU01_CLC)||TRIM(CU01_CUS) NOT IN(SELECT CUST_ID FROM SMS_AND_E_BANKING_USER_O_TABLE WHERE SMS_ENABLED='Y'  )
+ ) GROUP BY REASON_FOR_NOT_MIGRATING;
+ 
+ --MOBILE BANKING USER 
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM(
+SELECT MOBILE_BANKING_USER.*,CASE  WHEN M.INDIVIDUAL='N' THEN 'CORPORATE CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'
+                                   WHEN USR_STATUS!='ACTIVE' THEN 'USER NOT ACTIVE'
+                                  WHEN GFPF.GFBRNM IS NULL THEN 'CUSTOMER RECORDS NOT EXIST IN EQUATION CUSTOMER MASTER TABLE AS OF'||TO_DATE(GET_PARAM('EOD_DATE'),'DD-MM-YYYY')
+                                  WHEN M.GFBRNM IS NULL THEN 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'  
+                                  WHEN to_date(USR_DATE_LAST_UPDATE,'yyyy-mm-dd hh24:mi:ss')  < add_months(to_date(get_param('EOD_MIL'),'MM-DD-YYYY hh24:mi:ss'),-6) THEN 'USER LAST UPDATE DATE IS MORE THAN 6 MONTH' END REASON_FOR_NOT_MIGRATING
+ FROM MOBILE_BANKING_USER
+LEFT JOIN GFPF ON TRIM(GFPF.GFBRNM)||TRIM(GFPF.GFCUS) = TRIM(USR_EXTERNAL_USER_ID)
+LEFT JOIN MAP_CIF M ON  TRIM(M.GFBRNM)||TRIM(M.GFCUS) =  TRIM(USR_EXTERNAL_USER_ID)AND IS_JOINT <> 'Y'
+WHERE TRIM(USR_EXTERNAL_USER_ID) NOT IN(
+SELECT TRIM(CUST_ID) FROM SMS_AND_E_BANKING_USER_O_TABLE WHERE MOBILE_ENABLED='Y'
+  )  
+  ) GROUP BY REASON_FOR_NOT_MIGRATING;
+  
+  
+--E_BANKING USER
+
+
+ CREATE INDEX IDX_OBC ON ONLINE_BANK_CUST_DTLS(CUSTOMER_NO,USER_ID,EMAIL,LASTLOG_DATE);
+ 
+ CREATE INDEX IDX_OBC1 ON ONLINE_BANK_CUST_DTLS_UNQ_DATA(CUSTOMER_NO,USERID,EMAIL,LASTLOG_DATE);
+ 
+
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM (
+SELECT A.*,CASE WHEN INDIVIDUAL='N' THEN 'CORPORATE CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+                                    WHEN TRIM(CUSTOMER_NO) IS NULL THEN 'CUSTOMER NUMBER IS BLANK'
+                                     WHEN TRIM(STATUS) IS NULL OR  TRIM(STATUS)!='A' THEN 'INACTIVE RECORD' 
+                                     WHEN FIN_CIF_ID IS NULL THEN 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.' 
+                                     WHEN REGEXP_LIKE(USER_ID, UNISTR('[\0600-\06FF]')) THEN 'ARABIC USERID''S CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'
+                                     WHEN CUST_ID IS NOT NULL THEN 'DUPLICATE RECORDS [ SAME CUSTOMER ID ,CIF AND LAST LOGIN TIME]' 
+                                     WHEN U.DEL_FLG='1' OR U.STATUS1!='A'  THEN 'DELETED OR INACTIVE RECORD'
+                                     WHEN LASTLOG_DATE IS NULL THEN 'DUPLICATE RECORDS AND LAST LOGIN DATE NULL RECORD [CUSTOMER HAS NOT LOGGED IN]' 
+                                     ELSE 'DUPLICATE RECORDS WITH LAST LOGIN DATE IS LESSER THAN OTHER RECORD' END REASON_FOR_NOT_MIGRATING  
+FROM ONLINE_BANK_CUST_DTLS A
+LEFT JOIN MAP_CIF M ON M.FIN_CIF_ID = CUSTOMER_NO AND IS_JOINT <> 'Y'
+LEFT JOIN SMS_AND_E_BANKING_USER_O_TABLE ON TRIM(CUSTOMER_NO) = TRIM(CUST_ID)
+LEFT JOIN (SELECT CUSTOMERNO,USERID,DELETEFLAG DEL_FLG,STATUS STATUS1 FROM USERS WHERE DELETEFLAG = '0' AND STATUS = 'A') U ON CUSTOMER_NO = U.CUSTOMERNO AND USER_ID=U.USERID
+ WHERE
+ NOT EXISTS (
+ SELECT 1 FROM ONLINE_BANK_CUST_DTLS_UNQ_DATA B WHERE CUSTOMER_NO IN(SELECT CUST_ID FROM SMS_AND_E_BANKING_USER_O_TABLE WHERE E_BANKING_ENEBLED='Y' ) AND  A.CUSTOMER_NO = B.CUSTOMER_NO AND 
+  A.USER_ID = B.USERID AND A.EMAIL = B.EMAIL AND A.LASTLOG_DATE = B.LASTLOG_DATE
+ )
+ ) GROUP BY REASON_FOR_NOT_MIGRATING;
+ 
+ 
+--E-BANKING BENEFICIARY 
+
+ SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM (
+ SELECT INTERNET_PAYEE.*,CASE WHEN INDIVIDUAL='N' THEN 'CORPORATE CUSTOMERS BENEFICIARY NOT MIGRATING' 
+                              WHEN PAYEE_TYPE='INTERNATIONAL' AND PAYEE_TRAN_CURRENCY IS NULL THEN 'BENEFICIARY ACCOUNT CURRENCY IS NULL FOR INTERNATIONAL BENEFICIARY'
+                              WHEN CCY IS NULL THEN 'BENEFICIARY ACCOUNT CURRENCY NOT CONFIGURED IN FINACLE'
+                              WHEN TRIM(CUSTOMER_NO) IS NULL THEN 'CUSTOMER NUMBER IS BLANK'
+                              WHEN FIN_CIF_ID IS NULL THEN 'CUSTOMER NOT MIGRATED IN FINACLE CORE DUE TO CLOSED ACCOUNTS, NO ACCOUNTS , ZERO BALANCE ACCOUNTS ETC.'
+                              WHEN STATUS !='A' THEN 'INACTIVE RECORD'
+                              WHEN IS_DELETED !='0' THEN 'DELETED RECORD'   
+                              WHEN TRIM(BIC) IS NULL THEN 'BIC CODE DOES NOT EXIST' 
+                              WHEN ROUTING_NO IS NULL THEN 'INVALID BIC CODE OR BIC NOT CONFIGURED IN FINACLE'
+                              ELSE 'DUPLICATE RECORDS OR USER NOT MIGRATED'
+                          END REASON_FOR_NOT_MIGRATING   FROM INTERNET_PAYEE
+    LEFT JOIN MAP_CIF M ON SUBSTR (M.FIN_CIF_ID, 2, 10) = SUBSTR (CUSTOMER_NO, 2, 10)AND IS_JOINT <> 'Y'
+    LEFT JOIN (SELECT DISTINCT TRIM(ROUTING_NO) ROUTING_NO FROM BANK_ROUTING_TABLE) ON ROUTING_NO = TRIM(BIC)
+    LEFT JOIN E_BANK_CCY ON CCY = TRIM(PAYEE_TRAN_CURRENCY)
+WHERE (CUSTOMER_NO||NVL(TRIM(PAYEE_NAME),CONVERT_CODES('ALPHABET','Y'))||PAYEE_ADDRESS1||PAYEE_ADDRESS2||TRIM(CONTACT_PHONENO)||
+CASE WHEN IS_DELETED='1'  THEN 'Y' ELSE 'N' END||TO_DATE(SUBSTR(DATE_TIME_CREATED,1,19),'YYYY-MM-DD HH24:MI:SS')||BIC||PAYEE_TRAN_CURRENCY||trim(STATUS)||trim(IS_DELETED)) not IN(
+    SELECT A.CORP_ID||BNF_NAME||BNF_ADDRESS_1||BNF_ADDRESS_2||BNF_MOB||'N'||R_MOD_TIME||BANK_IDENTIFIER||BNF_ACCT_CRN||'A0' FROM PAYEE_MASTER_O_TABLE A
+    INNER JOIN CRMUSER.ACCOUNTS ON ORGKEY = TRIM(A.CORP_ID)
+)
+-- or STATUS = 'A' AND IS_DELETED ='0'
+) GROUP BY  REASON_FOR_NOT_MIGRATING  ;
+
+--MOBILE BANKING BENEFICIARY
+
+drop table mb_migrated_ben;
+
+create table mb_migrated_ben as
+SELECT trim(CORP_ID) CORP_ID ,trim(BNF_NAME) BNF_NAME ,trim(ACCOUNT_ID) ACCOUNT_ID,trim(BANK_IDENTIFIER) BANK_IDENTIFIER FROM PAYEE_MASTER_O_TABLE WHERE (trim(CORP_ID),trim(BNF_NAME),trim(ACCOUNT_ID),trim(BANK_IDENTIFIER))IN(
+  SELECT trim(USR_EXTERNAL_USER_ID),trim(BBF_BENEFICIARY_NAME),TRIM(SUBSTR(REPLACE(REPLACE(TRIM(MB.BBF_ACCOUNT_NUMBER),' ',''),'-',''),1,34)),trim(BIC) FROM MOBILE_BANKING_BENEFICIARY MB
+  INNER JOIN MOBILE_BANKING_USER ON TRIM(BBF_USER_ID) = TRIM(USR_USER_ID) 
+  );
+
+
+drop table NOT_MIG_MOBILE_BEN;
+
+CREATE TABLE NOT_MIG_MOBILE_BEN AS
+SELECT MOBILE_BANKING_BENEFICIARY.*,USR_EXTERNAL_USER_ID FROM MOBILE_BANKING_BENEFICIARY
+ LEFT JOIN MOBILE_BANKING_USER ON TRIM(BBF_USER_ID) = TRIM(USR_USER_ID) 
+  WHERE (trim(USR_EXTERNAL_USER_ID),trim(BBF_BENEFICIARY_NAME),TRIM(SUBSTR(REPLACE(REPLACE(TRIM(BBF_ACCOUNT_NUMBER),' ',''),'-',''),1,34)),trim(BIC)) NOT IN(
+  select * from mb_migrated_ben
+);
+
+
+
+SELECT REASON_FOR_NOT_MIGRATING,COUNT(*) FROM (
+SELECT  a.*,CASE WHEN TRIM(BBF_STATUS) !='ACTIVE' THEN 'INACTIVE RECORD'
+                                 WHEN CCY IS NULL THEN 'BENEFICIARY ACCOUNT CURRENCY NOT CONFIGURED IN FINACLE'
+                                  WHEN BBF_IS_DELETED!='0' THEN 'RECORD IS DELETED' 
+                                  when trim(USR_STATUS)!='ACTIVE' then 'MOBILE BANKING USER IS INACTIVE' 
+                                  WHEN  a.USR_EXTERNAL_USER_ID IS NULL THEN 'PAYEE CUSTOMER NUMBER NOT AVAILABLE'
+                                  WHEN REGEXP_LIKE(BBF_BENEFICIARY_NAME, UNISTR('[\0600-\06FF]')) THEN 'ARABIC BENEFICIARY NAME NOT MIGRATED'
+                                 WHEN MAP_CIF.FIN_CIF_ID IS NULL THEN 'CUSTOMER NOT MIGRATED IN CORE'
+                                 WHEN INDIVIDUAL='N' THEN 'CORPORATE CUSTOMERS BENEFICIARY NOT MIGRATING'
+                                 WHEN ROUTING_NO IS NULL THEN 'INVALID BIC CODE OR BIC NOT CONFIGURED IN FINACLE'
+                                 WHEN TRIM(BM.BANK_REF_NO)  IS NULL THEN 'BANK MASTER DETAILS NOT AVAILABLE'                                                                  
+                                 WHEN BBF_BENEFICIARY_TYPE='ABK' AND LEG_BRANCH_ID IS NULL THEN 'SAME BANK BENEFICIARY ACCOUNT NUMBER NOT MIGRATED'
+                                 WHEN E_USER.CUST_ID IS NULL THEN 'USER NOT MIGRATED IN E-BANKING' 
+                                 ELSE 'DUPLICATE RECORDS'END REASON_FOR_NOT_MIGRATING FROM NOT_MIG_MOBILE_BEN a
+LEFT JOIN MAP_CIF ON USR_EXTERNAL_USER_ID = FIN_CIF_ID
+LEFT JOIN E_BANK_CCY ON CCY = TRAN_CCY
+LEFT JOIN MAP_ACC ON BBF_ACCOUNT_NUMBER = LEG_BRANCH_ID||LEG_SCAN||LEG_SCAS
+left join MOBILE_BANKING_USER b on TRIM(a.USR_EXTERNAL_USER_ID) = TRIM(b.USR_EXTERNAL_USER_ID)
+LEFT JOIN BANK_ROUTING_TABLE BR ON TRIM(ROUTING_NO) = TRIM(BIC) AND 
+                                BR.NETWORK_TYPE = CASE WHEN TRIM(BBF_BENEFICIARY_TYPE)='ABK' THEN 'WIB' 
+                                WHEN TRIM(BBF_BENEFICIARY_TYPE)='LOCAL' THEN 'KASIP' 
+                                WHEN TRIM(BBF_BENEFICIARY_TYPE)='INTERNATIONAL' THEN 'SWI' END
+                                AND CASE WHEN TRIM(BBF_BENEFICIARY_TYPE)='ABK' AND BR.BANK_REF_NO!='14539' THEN 0 ELSE 1 END = 1
+LEFT JOIN BANK_MASTER_TABLE BM ON TRIM(BM.BANK_REF_NO) = TRIM(BR.BANK_REF_NO) 
+LEFT JOIN SMS_AND_E_BANKING_USER_O_TABLE E_USER ON   MAP_CIF.FIN_CIF_ID = CUST_ID
+)   GROUP BY  REASON_FOR_NOT_MIGRATING
+
+
+--E-BANKING
+SELECT COUNT(*) FROM ONLINE_BANK_CUST_DTLS
+
+--MOBILE BANKING
+SELECT COUNT(*) FROM MOBILE_BANKING_USER
+
+--SMS REGISTRATION
+SELECT COUNT(*) FROM YSMSCUPF01
+
+--SMS SUBSCRIPTION
+SELECT COUNT(*) FROM YSMSACPF01
+
+--CORPORATE_USER_ACCESS_ACCOUNTS
+SELECT COUNT(*) FROM E_BANKING_USER_ACCOUNT_ACCESS
+
+--CORPORATE E-BANKING USER
+SELECT COUNT(*) FROM CORP_EBANKING_USER
+
+SELECT * FROM SMS_AND_E_BANKING_USER_O_TABLE
+
+SELECT * FROM SMS_ALERTS_REG_O_TABLE
+
+SELECT * FROM SMS_ALERTS_SUB_O_TABLE
+
+
+SELECT * FROM CORP_E_BANKING_USER_O_TABLE
+
+--CORPORATE E-BANKING USER
+SELECT * FROM ONLINE_BANK_CUST_DTLS
+INNER JOIN MAP_CIF M ON SUBSTR (M.FIN_CIF_ID, 2, 10) = SUBSTR (CUSTOMER_NO, 2, 10)AND IS_JOINT <> 'Y'
+WHERE  INDIVIDUAL='N' 
+
+--CORPORATE MOBILE BANKING USER
+SELECT * FROM MOBILE_BANKING_USER
+INNER JOIN MAP_CIF M ON SUBSTR (M.FIN_CIF_ID, 2, 10) = SUBSTR (USR_EXTERNAL_USER_ID, 2, 10)AND IS_JOINT <> 'Y'
+WHERE  INDIVIDUAL='N' 
+
+--CORPORATE SMS BANKING USER
+SELECT * FROM YSMSCUPF01 S
+       LEFT JOIN MAP_CIF M ON SUBSTR (M.FIN_CIF_ID, 2, 10) = S.CU01_CLC||S.CU01_CUS AND IS_JOINT <> 'Y'
+WHERE  INDIVIDUAL='N'
