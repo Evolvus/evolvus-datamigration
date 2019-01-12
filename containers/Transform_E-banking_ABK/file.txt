@@ -1,8 +1,0 @@
-10,corp_e_banking_user.sql,sql
-20,customer_payee_upload.sql,sql
-30,payee_master_upload.sql,sql
-40,sms_alerts_registration_upload.sql,sql
-50,sms_alerts_subscription_upload.sql,sql
-60,sms_and_e_banking_user_upload.sql,sql
-70,user_account_access_upload.sql,sql
-
