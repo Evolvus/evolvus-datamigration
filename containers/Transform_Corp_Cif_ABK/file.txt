@@ -1,8 +1,0 @@
-10,ccu1_upload_kw.sql,sql
-20,ccu2_upload_kw.sql,sql
-30,ccu5_upload_kw.sql,sql
-40,ccu6_upload_kw.sql,sql
-50,ccu7_upload_kw.sql,sql
-60,ccu8_upload_kw.sql,sql
-70,ccu9_upload_kw.sql,sql
-
